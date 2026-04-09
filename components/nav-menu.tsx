@@ -12,7 +12,7 @@ interface NavLink {
   label: string
 }
 
-export default function NavMenu({ links, minWidth = 1000, listWidget}: { links: NavLink[]; minWidth? : number | undefined, listWidget?: React.ReactNode[]}) {
+export default function NavMenu({ links, minWidth = 2000, listWidget}: { links: NavLink[]; minWidth? : number | undefined, listWidget?: React.ReactNode[]}) {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 

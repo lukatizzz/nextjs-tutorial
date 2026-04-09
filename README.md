@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Shop — Full-Stack E-commerce Tutorial
+
+A full-stack e-commerce application built with **Next.js 16**, **React 19**, and **TypeScript**. Features authentication, product management, and a persistent shopping cart.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16.2 (App Router) |
+| Language | TypeScript 5 |
+| UI | React 19, shadcn/ui, Radix UI |
+| Styling | Tailwind CSS v4 |
+| Forms | React Hook Form + Zod |
+| Theming | next-themes |
+| Notifications | Sonner |
+| Icons | Lucide React |
+
+---
+
+## Features
+
+- **Authentication** — Register, login, logout with session token via cookies
+- **Product listing** — Browse all products with image, name, price
+- **Product management** — Create, edit, delete your own products
+- **Shopping cart** — Add/remove items, adjust quantity, persistent via `localStorage`
+- **Dark/light mode** — System-aware theme toggle
+- **SSR + CSR** — Server-side rendering with seamless client hydration
+
+---
+
+## Project Structure
+
+```
+├── app/
+│   ├── (auth)/
+│   │   ├── login/          # Login page
+│   │   └── register/       # Register page
+│   ├── api/                # Internal API routes (proxy)
+│   ├── products/
+│   │   ├── page.tsx        # Product listing
+│   │   ├── [id]/           # Product detail
+│   │   ├── add/            # Add new product
+│   │   ├── me/             # My products
+│   │   └── cart/           # Shopping cart
+│   │       └── components/ # Cart-specific components
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Home page
+│
+├── components/
+│   ├── ui/                 # shadcn/ui primitives
+│   ├── app-provider.tsx    # Global state context (user, cart)
+│   ├── header.tsx
+│   ├── nav-menu.tsx
+│   ├── product-card..tsx
+│   ├── cart-button.tsx
+│   └── ...
+│
+├── apiRequests/            # API client functions
+├── schemaValidations/      # Zod schemas
+└── lib/                    # Utilities, HTTP client
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A running backend API (default: `http://localhost:4000`)
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+### Lint
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment
 
-## Deploy on Vercel
+The app proxies API requests to a backend server. Configure the backend URL in [proxy.ts](proxy.ts) if needed.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Key Implementation Notes
+
+- **Cart persistence** — Cart state is stored in `localStorage` and rehydrated on the client. A `mounted` guard prevents SSR/CSR hydration mismatches.
+- **Session management** — Session tokens are stored in HTTP-only cookies and forwarded to the backend via a Next.js proxy route.
+- **Route protection** — Auth state is checked server-side in `layout.tsx` using `cookies()`.
+- **Theme** — `next-themes` applies the user's preferred color scheme before React hydrates to avoid flash.

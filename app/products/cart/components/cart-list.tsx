@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useAppContext } from "@/components/app-provider";
@@ -8,6 +9,11 @@ import CartSummary from "./cart-summary";
 
 export default function CartList() {
   const { cart, removeFromCart, updateQuantity, clearCart } = useAppContext();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
 
   if (cart.length === 0) {
     return (

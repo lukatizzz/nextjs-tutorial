@@ -25,6 +25,7 @@ export default function CartItemRow({
             src={product.image}
             alt={product.name}
             fill
+            sizes="80px"
             className="object-contain"
           />
         </div>
