@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const privatePaths = ['/me']
+const privatePaths = ['/me', '/products/me', '/products/add']
 const authPaths = ['/login', '/register']
 
 const productEditRegex = /^\/products\/\d+\/edit$/

@@ -44,6 +44,7 @@ export function RegisterForm() {
       });
       toast.success(res.payload.message)
       router.replace('/')
+      router.refresh()
     } catch (error: any) {
       handleErrorApi({ error, setError: form.setError })
     }

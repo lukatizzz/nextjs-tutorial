@@ -23,7 +23,16 @@ const productsApiRequest = {
     },
     delete: (id: number) => {
         return http.delete<MessageResType>(`/products/${id}`);
+    },
+    getMyProducts: (sessionToken: string) => {
+        return http.get<ProductListResType>("/products/me", {
+            cache: "no-store",
+            headers: {
+                Authorization: `Bearer ${sessionToken}`,
+            },
+        });
     }
+
 };
 
 export default productsApiRequest;

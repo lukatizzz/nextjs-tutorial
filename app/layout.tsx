@@ -3,10 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
+import SiteBackground from "@/components/site-background";
 import { Toaster } from "sonner";
 import AppProvider from "@/components/app-provider";
 import { cookies } from "next/headers";
 import SlideSession from "@/components/slide-session";
+import accountApiRequest from "@/apiRequests/account";
 
 const inter = Inter({ subsets: ['vietnamese'] })
 
@@ -24,16 +26,26 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies()
   const sessionToken = cookieStore.get('sessionToken')?.value
+  let user = null;
+  if (sessionToken) {
+    const res = await accountApiRequest.me(sessionToken ?? "");
+    user = res.payload.data;
+
+    console.log("User info:", user);
+  } else {
+    console.log(sessionToken);
+  }
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} relative min-h-dvh`}>
+        <SiteBackground />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <AppProvider initialSessionToken={sessionToken}>
+          <AppProvider initUser={user} initialSessionToken={sessionToken}>
             <Header />
             {children}
             <SlideSession />

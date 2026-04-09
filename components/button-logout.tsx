@@ -18,6 +18,6 @@ export default function ButtonLogout() {
         }
     }
     return (
-        <Button size={'sm'} onClick={handleLogout}>Đăng xuất</Button>
+        <Button size={'sm'} onClick={handleLogout} className="hover:bg-destructive/10 hover:text-destructive">Đăng xuất</Button>
     )
 }

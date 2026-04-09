@@ -37,6 +37,7 @@ export default function DeleteProductButton({ product }: { product: ProductResTy
            <Button
              variant="destructive"
              size="sm"
+              className="flex-1 h-8 text-xs "
            >
              <Trash2Icon />
            </Button>
@@ -53,7 +54,7 @@ export default function DeleteProductButton({ product }: { product: ProductResTy
            </AlertDialogHeader>
            <AlertDialogFooter>
              <AlertDialogCancel variant="outline">Hủy</AlertDialogCancel>
-             <AlertDialogAction variant="destructive">Xóa</AlertDialogAction>
+             <AlertDialogAction variant="destructive" onClick={handleDelete}>Xóa</AlertDialogAction>
            </AlertDialogFooter>
          </AlertDialogContent>
        </AlertDialog>

@@ -16,7 +16,8 @@ export const ProductSchema = z.object({
   description: z.string(),
   image: z.string(),
   createdAt: z.date(),
-  updatedAt: z.date()
+  updatedAt: z.date(),
+  createdByUserId: z.number(),
 })
 
 export const ProductRes = z.object({

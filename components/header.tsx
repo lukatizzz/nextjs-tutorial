@@ -1,74 +1,44 @@
-import Link from 'next/link'
+"use client"
 import { ModeToggle } from './mode-toggle'
 import ButtonLogout from './button-logout'
-import { cookies } from 'next/headers'
-import accountApiRequest from '@/apiRequests/account'
 import NavMenu from './nav-menu'
+import { useAppContext } from './app-provider'
+import CartButton from './cart-button'
 
-export default async function Header() {
-  const cookieStore = await cookies()
-  const sessionToken = cookieStore.get('sessionToken')?.value
-  let user = null
+export default function Header() {
+  const { user } = useAppContext()
 
-  if (sessionToken) {
-      const res =
-        await accountApiRequest.me(
-          sessionToken ?? ''
-        );
-        user = res.payload.data
+  return (
+    <div className="flex flex-row flex-wrap items-center justify-between gap-4 border-b border-border bg-white p-4 dark:bg-background">
+      <h1 className="min-w-0 flex-1 truncate text-2xl font-bold">
+        {user ? `Xin chào, ${user.name}` : "Xin chào"}
+      </h1>
+      <div className="flex flex-row flex-wrap items-center gap-4 min-w-0">
+        <ModeToggle />
+        <CartButton />
 
-        console.log('User info:', user)
-
-     
-    
-  } else {
-    console.log(sessionToken);
-  }
-
-    return (
-      <div className="flex items-center flex-col md:flex-row p-4 justify-between">
-        <h1 className="text-2xl font-bold">
-          {user ? `Xin chào, ${user.name}` : "Xin chào"}
-        </h1>
-        {/* <ul>
-              <li>
-                <Link href="/login">Login</Link>
-              </li>
-              <li>
-                <Link href="/register">Register</Link>
-              </li>
-              <li>
-                <Link href="/product">Product</Link>
-              </li>
-              <li>
-                <Link href="/product/add">Add Product</Link>
-              </li>
-            </ul> */}
         {user ? (
-          <div className="flex flex-col md:flex-row items-center gap-5">
-            <NavMenu
-              links={[
-                { href: "/me", label: "Thông tin cá nhân" },
-                { href: "/product", label: "Sản phẩm" },
-                { href: "/product/add", label: "Thêm sản phẩm" },
-              ]}
-            />
-            <ModeToggle />
-            <ButtonLogout />
-          </div>
+          <NavMenu
+            links={[
+              { href: "/", label: "Trang chủ" },
+              { href: "/me", label: "Thông tin cá nhân" },
+              { href: "/products", label: "Sản phẩm" },
+              { href: "/products/add", label: "Thêm sản phẩm" },
+              { href: "/products/me", label: "Quản lý sản phẩm" },
+            ]}
+            listWidget={[<ButtonLogout key="logout" />]}
+          />
         ) : (
-          <div className="flex flex-col md:flex-row items-center gap-5">
-            <NavMenu
-              links={[
-                { href: "/login", label: "Đăng nhập" },
-                { href: "/register", label: "Đăng ký" },
-                { href: "/product", label: "Sản phẩm" },
-              ]}
-            />
-            <ModeToggle />
-           </div> 
-        
+          <NavMenu
+            links={[
+              { href: "/", label: "Trang chủ" },
+              { href: "/products", label: "Sản phẩm" },
+              { href: "/login", label: "Đăng nhập" },
+              { href: "/register", label: "Đăng ký" },
+            ]}
+          />
         )}
       </div>
-    );
+    </div>
+  );
 }
